@@ -1,0 +1,14 @@
+The principles of the asynchronous operation is simple and easy to understand.
+
+* Each operation instantiated in the scheduled (warm) state.
+* Each operation can be created in the (cold) state without scheduling its execution.
+* Each "cold" operation can be scheduled to run later.
+* Each operation can be continued with its result.
+* Each operation may have unlimited number of the continuations.
+* The final result of the operation that have continuation will be the result of the last computation.
+* Each operation can have the children (inner) operations.
+* The parent (outer) operation waits for completion of its children (inner) operations.
+* Exceptions that have occurred in the children propagated to his parents.
+* The exceptions propagated from the one continuation to the next and so to the end within the parent scope.
+* The handled exceptions will be later removed from list of unhandled exceptions of his parent.
+* If an exception has come to the end of the continuations and it was not handled it becomes unhandled and it will be owned by the parent.

@@ -1,0 +1,7 @@
+name: async
+version: 0.1.1
+author: Andrew Mezoni <andrew.mezoni@gmail.com>
+description: Asynchronous operations.
+
+#dependencies:
+#  unittest: any
