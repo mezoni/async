@@ -106,7 +106,7 @@ void main() {
 
 **The ability creating 'promise 'tasks from 'futures'**
  
- ```
+```
 void main() {
   var completer = new Completer();
   var future = completer.future;
@@ -116,7 +116,7 @@ void main() {
 }
 ```
 
-**The ability creating 'promise 'tasks from results**
+**The ability creating 'promise' tasks from results**
  
 ``` 
 void main() {
