@@ -145,7 +145,7 @@ class Async<T> implements AsyncResult<T> {
 
     var operation = completer.operation;
     operation.onComplete(() {
-      if(operation.isCanceled) {
+      if(operation.isCanceled || operation.isFailed) {
         if(streamSubscription != null) {
           streamSubscription.cancel();
         }

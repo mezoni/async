@@ -10,6 +10,7 @@ Here is a small list of supported features:
  - The 'promise' tasks similar to the 'futures'
  - The ability creating task in the 'cold' or 'warm' state
  - The ability creating 'promise 'tasks from 'futures'
+ - The ability easy transform the tasks into 'futures'
  - The ability creating 'promise 'tasks from results
  - The ability easy assignment of the task result inside the tasks 'actions'
  - The exception handling with the error propagation from the inner tasks to the outer tasks
@@ -123,6 +124,21 @@ void main() {
   var completer = new AsyncCompleter();
   var task = new Async.fromResult('Hello');
   task.then((result) => print(result));
+}
+```
+
+**The ability easy transform the tasks into 'futures'**
+
+```
+void main() {
+  var task = new Async(() {
+    return 'Hello';
+  });
+
+  var future = task.asFuture();
+  future.then((result) {
+    print(result);
+  });
 }
 ```
 
