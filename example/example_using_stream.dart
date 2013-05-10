@@ -1,8 +1,6 @@
 import 'package:async/async.dart';
 
 import 'dart:async';
-import 'dart:isolate';
-import 'dart:math';
 
 void main() {
   var example = new Example();
@@ -76,8 +74,7 @@ class Example {
   Async<List<int>> _readFromStreamAsync(Stream stream) {
     return new Async<List<int>>(() {
       Async<List<int>> current = Async.current;
-      var ce = Async.current.cancelEvent;
-      var streamTask = new Async<List<int>>.fromStream(stream, cancelEvent: ce);
+      var streamTask = new Async<List<int>>.fromStream(stream);
       streamTask.then((list) {
         current.result = list;
       });

@@ -3,8 +3,9 @@ part of async;
 class AsyncCompleter<T> {
   Async<T> _operation;
 
-  AsyncCompleter({int options}) {
-    _operation = new Async<T>._promise(options: options);
+  AsyncCompleter({CancelEvent cancelEvent, int options}) {
+    _operation = new Async<T>._promise(cancelEvent: cancelEvent,
+      options: options);
   }
 
   Async<T> get operation {

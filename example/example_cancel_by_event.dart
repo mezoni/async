@@ -1,9 +1,5 @@
 import 'package:async/async.dart';
 
-import 'dart:async';
-import 'dart:isolate';
-import 'dart:math';
-
 void main() {
   var example = new Example();
   example.run();
@@ -26,7 +22,6 @@ class Example {
 
       var sw1 = new Stopwatch();
       sw1.start();
-
       // Who did not, that was late
       new Async.delay(200, () {
         sw1.stop();

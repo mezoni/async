@@ -93,7 +93,8 @@ class Async<T> implements AsyncResult<T> {
       throw new ArgumentError('future: $future');
     }
 
-    var completer = new AsyncCompleter<T>(options: options);
+    var completer = new AsyncCompleter<T>(cancelEvent: cancelEvent,
+      options: options);
     future.then((T value) {
       completer.trySetResult(value);
     }, onError: (Object error) {
@@ -117,15 +118,8 @@ class Async<T> implements AsyncResult<T> {
 
     var result = new List();
     StreamSubscription streamSubscription = null;
-    var completer = new AsyncCompleter<T>(options: options);
-    if(cancelEvent != null) {
-      cancelEvent += () {
-        completer.trySetCanceled();
-        if(streamSubscription != null) {
-          streamSubscription.cancel();
-        }
-      };
-    }
+    var completer = new AsyncCompleter<T>(cancelEvent: cancelEvent,
+      options: options);
 
     void handleData(data) {
       result.add(data);
@@ -149,7 +143,16 @@ class Async<T> implements AsyncResult<T> {
       completer.trySetException(exception, stackTrace);
     }
 
-    return completer.operation;
+    var operation = completer.operation;
+    operation.onComplete(() {
+      if(operation.isCanceled) {
+        if(streamSubscription != null) {
+          streamSubscription.cancel();
+        }
+      }
+    });
+
+    return operation;
   }
 
   factory Async._continuation(action(), Async antecedent) {
@@ -161,8 +164,9 @@ class Async<T> implements AsyncResult<T> {
     return operation;
   }
 
-  factory Async._promise({int options}) {
-    var operation = new Async._internal(null, options: options, promise: true);
+  factory Async._promise({CancelEvent cancelEvent, int options}) {
+    var operation = new Async._internal(null, cancelEvent: cancelEvent,
+      options: options, promise: true);
     operation._execute();
     return operation;
   }
@@ -187,10 +191,15 @@ class Async<T> implements AsyncResult<T> {
     if(_current != null && (_options & DETACH) == 0) {
       _parent = _current;
       _parent._addChild(this);
-      if(_parent._cancelEvent != null) {
-        _parent._cancelEvent += () {
-          _cancelByEvent();
-        };
+      var prev = _parent;
+      while(prev != null) {
+        if(prev._cancelEvent != null) {
+          prev._cancelEvent += () {
+            _cancelByEvent();
+          };
+        }
+
+        prev = prev._parent;
       }
     }
 
@@ -316,19 +325,6 @@ class Async<T> implements AsyncResult<T> {
     }
 
     return completer.operation;
-  }
-
-  CancelEvent get cancelEvent {
-    var prev = this;
-    while(true) {
-      if(prev._cancelEvent != null) {
-        return prev._cancelEvent;
-      }
-
-      prev = prev._parent;
-    }
-
-    return null;
   }
 
   AsyncException get exception {
