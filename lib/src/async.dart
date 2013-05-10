@@ -56,14 +56,14 @@ class Async<T> implements AsyncResult<T> {
 
   factory Async(T action(), {CancelEvent cancelEvent, int options}) {
     var operation = new Async._internal(action, cancelEvent: cancelEvent,
-        options: options);
+      options: options);
     operation.start();
     return operation;
   }
 
   factory Async.create(T action(), {CancelEvent cancelEvent, int options}) {
     var operation = new Async._internal(action, cancelEvent: cancelEvent,
-        options: options);
+      options: options);
     return operation;
   }
 
@@ -79,7 +79,7 @@ class Async<T> implements AsyncResult<T> {
     }
 
     var operation = new Async._internal(action, cancelEvent: cancelEvent,
-        options: options);
+      options: options);
     new Timer(duration, () {
       operation._scheduler.execute(operation);
     });
@@ -111,13 +111,13 @@ class Async<T> implements AsyncResult<T> {
   }
 
   factory Async.fromStream(Stream stream, {CancelEvent cancelEvent, int options,
-      bool cancelOnError}) {
+    bool cancelOnError}) {
     if(stream == null) {
       throw new ArgumentError('stream: $stream');
     }
 
     var result = new List();
-    StreamSubscription streamSubscription = null;
+    StreamSubscription streamSubscription;
     var completer = new AsyncCompleter<T>(cancelEvent: cancelEvent,
       options: options);
 
@@ -218,7 +218,7 @@ class Async<T> implements AsyncResult<T> {
   }
 
   static Async<List> whenAll(Iterable<Async> operations,
-      {CancelEvent cancelEvent, int options}) {
+    {CancelEvent cancelEvent, int options}) {
     if(operations == null) {
       throw new ArgumentError('operations: $operations');
     }
@@ -230,13 +230,15 @@ class Async<T> implements AsyncResult<T> {
     }
 
     var canceled = false;
-    var completer = new AsyncCompleter<List<Async>>(options: options);
+    var completer = new AsyncCompleter<List<Async>>(cancelEvent: cancelEvent,
+      options: options);
     var count = operations.length;
     AsyncException exception;
     var failed = false;
     var indices = new Map<int, Object>();
     var processed = 0;
     var results = new List(count);
+
     void complete(Async operation) {
       processed++;
       if(operation.isCanceled) {
@@ -299,8 +301,10 @@ class Async<T> implements AsyncResult<T> {
       throw new StateError('The operations list is empty');
     }
 
-    var completer = new AsyncCompleter<Async>(options: options);
+    var completer = new AsyncCompleter<Async>(cancelEvent: cancelEvent,
+      options: options);
     var done = false;
+
     void complete(Async operation) {
       if(!done) {
         done = true;
