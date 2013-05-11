@@ -35,6 +35,14 @@ class Example {
             var elapsed = sw[i].elapsedMilliseconds;
             print('Fetched for package #$i "$package" in $elapsed ms' );
             current.result = {'name': package, 'versions': versions, 'index': i};
+          })
+          .catchException((ae) {
+            ae.handle((exception) {
+              if(exception is SocketIOException) {
+                print('An error occurred during fetching "$package"');
+                return true;
+              }
+            });
           });
         });
 
@@ -66,13 +74,6 @@ class Example {
       .then((jsonData) {
         var doc = json.parse(jsonData);
         current.result = doc['versions'];
-      });
-    })
-    .catchException((ae) {
-      ae.handle((exception) {
-        if(exception is SocketIOException) {
-          return true;
-        }
       });
     });
   }

@@ -20,6 +20,14 @@ class Example {
     .then((packages) {
       packages.sort((e1, e2) => _compare(e1['name'], e2['name']));
       _writeHtml(packages);
+    })
+    .catchException((ae) {
+      ae.handle((exception) {
+        if(exception is SocketIOException) {
+          print('Error occured: $exception');
+          return true;
+        }
+      });
     });
   }
 
@@ -63,13 +71,6 @@ class Example {
 
         current.result = result;
       });
-    })
-    .catchException((ae) {
-      ae.handle((exception) {
-        if(exception is SocketIOException) {
-          return true;
-        }
-      });
     });
   }
 
@@ -81,13 +82,6 @@ class Example {
       .then((jsonData) {
         var doc = json.parse(jsonData);
         current.result = doc;
-      });
-    })
-    .catchException((ae) {
-      ae.handle((exception) {
-        if(exception is SocketIOException) {
-          return true;
-        }
       });
     });
   }
@@ -110,13 +104,6 @@ class Example {
 
         current.result = packages;
       });
-    })
-    .catchException((ae) {
-      ae.handle((exception) {
-        if(exception is SocketIOException) {
-          return true;
-        }
-      });
     });
   }
 
@@ -128,13 +115,6 @@ class Example {
       .then((jsonData) {
         var doc = json.parse(jsonData);
         current.result = doc;
-      });
-    })
-    .catchException((ae) {
-      ae.handle((exception) {
-        if(exception is SocketIOException) {
-          return true;
-        }
       });
     });
   }

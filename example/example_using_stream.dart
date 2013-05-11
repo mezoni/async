@@ -81,8 +81,6 @@ class Example {
       streamTask.then((list) {
         current.result = list;
       });
-
-      return null;
     });
   }
 
@@ -105,8 +103,6 @@ class Example {
         print('Stream created.');
         current.result = stream;
       });
-
-      return null;
     });
   }
 
@@ -118,11 +114,8 @@ class Example {
         return _readFromStreamAsync(stream).then((data) {
           print('Transfer from stream completed');
           current.result = data;
-          return null;
         });
       });
-
-      return null;
     });
   }
 }

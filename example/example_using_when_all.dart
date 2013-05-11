@@ -34,8 +34,6 @@ class Example {
           current.result = result;
         });
       });
-
-      return null;
     });
   }
 }

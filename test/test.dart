@@ -51,7 +51,7 @@ void _run_tests(List tests) {
 
   prev.continueWith((ant) {
     stdout.writeln('========================================================');
-    stdout.writeln('Test results');
+    stdout.writeln('TEST RESULTS:');
     if(!passed.isEmpty) {
       for(var line in passed) {
         stdout.writeln(line);
@@ -112,21 +112,35 @@ void _test_stream_closed_when_cancel() {
 
 List _get_example_tests() {
   var tests = [];
-  tests.add({'name': 'Example: Access pub.dartlang.org', 'test':
-    () => new example01.Example().run() });
-  tests.add({'name': 'Example: Cancel by event', 'test':
-    () => new example02.Example().run() });
-  tests.add({'name': 'Example: Handling exception', 'test':
-    () => new example03.Example().run() });
-  tests.add({'name': 'Example: Show latest packages', 'test':
-    () => new example04.Example().run() });
-  tests.add({'name': 'Example: Show all packages', 'test':
-    () => new example05.Example().run() });
-  tests.add({'name': 'Example: Using stream', 'test':
-    () => new example06.Example().run() });
-  tests.add({'name': 'Example: Using whenAll', 'test':
-    () => new example07.Example().run() });
-  tests.add({'name': 'Example: Using whenAny', 'test':
-    () => new example08.Example().run() });
+  _addExample('Access pub.dartlang.org',
+    () => new example01.Example().run(), tests);
+  _addExample('Cancel by event',
+    () => new example02.Example().run(), tests);
+  _addExample('Handling exception',
+    () => new example03.Example().run(), tests);
+  _addExample('Show latest packages',
+    () => new example04.Example().run(), tests);
+  _addExample('Show all packages',
+    () => new example05.Example().run(), tests);
+  _addExample('Using stream',
+    () => new example06.Example().run(), tests);
+  _addExample('Using whenAll',
+    () => new example07.Example().run(), tests);
+  _addExample('Using whenAny',
+    () => new example08.Example().run(), tests);
   return tests;
+}
+
+void _addExample(String name, Function action, List tests) {
+  test() {
+    new Async(action)
+    .catchException((ae) {
+      ae.handle((exception) {
+        expect(exception.runtimeType, null,
+          reason: 'example has unhandled exception');
+      });
+    });;
+  };
+
+  tests.add({'name': 'Example: $name', 'test': test });
 }
