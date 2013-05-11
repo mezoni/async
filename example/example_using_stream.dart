@@ -4,16 +4,7 @@ import 'dart:async';
 
 void main() {
   var example = new Example();
-  var task = new Async(() {
-    example.run(500);
-  });
-
-  task.continueWith((ant) {
-    example.run(2000);
-  }).continueWith((ant) {
-    example.run(8000);
-  });
-
+  example.run();
 }
 
 class StreamManager {
@@ -52,7 +43,19 @@ class StreamManager {
 }
 
 class Example {
-  void run(int timeout) {
+  void run() {
+    var task = new Async(() {
+      _runTask(500);
+    })
+    .continueWith((ant) {
+      _runTask(2000);
+    })
+    .continueWith((ant) {
+      _runTask(8000);
+    });
+  }
+
+  void _runTask(int timeout) {
     print('================================');
     print('Staring task with timeout $timeout');
     var ce = new CancelEvent();
