@@ -77,8 +77,7 @@ class Example {
   Async<List<String>> _readPackageInfoAsync(url) {
     return new Async(() {
       var current = Async.current;
-      var webClient = new WebClient();
-      webClient.readAsStringAsync(new Uri(url))
+      new WebClient().readAsStringAsync(new Uri(url))
       .then((jsonData) {
         var doc = json.parse(jsonData);
         current.result = doc;
@@ -89,8 +88,7 @@ class Example {
   Async<List> _readPagesAsync(String url) {
     return new Async(() {
       var current = Async.current;
-      var webClient = new WebClient();
-      webClient.readAsStringAsync(new Uri(url))
+      new WebClient().readAsStringAsync(new Uri(url))
       .then((jsonData) {
         var doc = json.parse(jsonData);
         var packages = doc['packages'];
@@ -110,8 +108,7 @@ class Example {
   Async<List<String>> _readPageAsync(url) {
     return new Async(() {
       var current = Async.current;
-      var webClient = new WebClient();
-      webClient.readAsStringAsync(new Uri(url))
+      new WebClient().readAsStringAsync(new Uri(url))
       .then((jsonData) {
         var doc = json.parse(jsonData);
         current.result = doc;
@@ -122,6 +119,7 @@ class Example {
   void _writeHtml(List packages) {
     var lib = 'example_show_all_packages';
     var title = 'All packages on pub.dartlang.org';
+    var github = 'https://github.com/mezoni/async/tree/master/example/$lib.dart';
     var strings = [];
     strings.add('<html>');
     strings.add('<head>');
@@ -129,6 +127,7 @@ class Example {
     strings.add('</head>');
     strings.add('<body>');
     strings.add('<h1>$title:</h1>');
+    strings.add('Generated at ${new DateTime.now()} by <a href="$github" target="_blank">$lib.dart</a></br>');
     strings.add('Total: ${packages.length} packages:');
     strings.add('<ul>');
     for(var package in packages) {
