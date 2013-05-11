@@ -29,8 +29,8 @@ class Example {
   Async<List<String>> _getLatestPackagesAsync() {
     return new Async(() {
       var current = Async.current;
-      var webClient = new WebClient();
-      webClient.readAsStringAsync(new Uri('$server/packages.json'))
+      new WebClient()
+      .readAsStringAsync(new Uri('$server/packages.json'))
       .then((jsonData) {
         var doc = json.parse(jsonData);
         var packages = doc['packages'];
@@ -57,11 +57,10 @@ class Example {
   Async<List<String>> _readPackageInfoAsync(url) {
     return new Async(() {
       var current = Async.current;
-      var webClient = new WebClient();
-      webClient.readAsStringAsync(new Uri(url))
+      new WebClient()
+      .readAsStringAsync(new Uri(url))
       .then((jsonData) {
-        var doc = json.parse(jsonData);
-        current.result = doc;
+        current.result = json.parse(jsonData);
       });
     })
     .catchException((ae) {

@@ -61,9 +61,9 @@ class Example {
   Async<List<String>> _getPackageVersionsAsync(String packageName) {
     return new Async(() {
       var current = Async.current;
-      var webClient = new WebClient();
-      var jsonData = webClient.readAsStringAsync(new Uri('$server/packages/$packageName.json'));
-      jsonData.then((jsonData) {
+      new WebClient()
+      .readAsStringAsync(new Uri('$server/packages/$packageName.json'))
+      .then((jsonData) {
         var doc = json.parse(jsonData);
         current.result = doc['versions'];
       });
