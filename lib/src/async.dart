@@ -365,8 +365,9 @@ class Async<T> implements AsyncResult<T> {
   }
 
   void set result(T result) {
-    if((_flagState & _STATE_RUNNING) != 0 || (_flagState & _STATE_WAIT_FOR_COMPLETION) != 0 &&
-        (_flagState & _STATE_PROMISE) == 0) {
+    if((_flagState & _STATE_RUNNING) != 0 ||
+      (_flagState & _STATE_WAIT_FOR_COMPLETION) != 0 &&
+      (_flagState & _STATE_PROMISE) == 0) {
       _result = result;
       return;
     }

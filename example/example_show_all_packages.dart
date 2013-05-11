@@ -62,7 +62,7 @@ class Example {
         var result = new List(count);
         for(var i = 0; i < count; i++) {
           var url = packages[i];
-          _readPackageInfoAsync(url)
+          _readJsonAndParseAsync(url)
           .then((info) {
             info['url'] = url;
             result[i] = info;
@@ -74,13 +74,12 @@ class Example {
     });
   }
 
-  Async<List<String>> _readPackageInfoAsync(url) {
+  Async<List<String>> _readJsonAndParseAsync(url) {
     return new Async(() {
       var current = Async.current;
       new WebClient().readAsStringAsync(new Uri(url))
       .then((jsonData) {
-        var doc = json.parse(jsonData);
-        current.result = doc;
+        current.result = json.parse(jsonData);
       });
     });
   }
@@ -101,17 +100,6 @@ class Example {
         }
 
         current.result = packages;
-      });
-    });
-  }
-
-  Async<List<String>> _readPageAsync(url) {
-    return new Async(() {
-      var current = Async.current;
-      new WebClient().readAsStringAsync(new Uri(url))
-      .then((jsonData) {
-        var doc = json.parse(jsonData);
-        current.result = doc;
       });
     });
   }

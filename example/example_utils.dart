@@ -18,7 +18,7 @@ class ExampleUtils {
         continue;
       }
 
-      if(uri.substring(urilen - length) == path) {
+      if(uri.endsWith(path)) {
         if(Platform.operatingSystem == 'windows') {
           uri = uri.replaceAll('file:///', '');
         } else {

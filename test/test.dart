@@ -142,5 +142,5 @@ void _addExample(String name, Function action, List tests) {
     });;
   };
 
-  tests.add({'name': 'Example: $name', 'test': test });
+  tests.add({'name': 'Example: $name', 'test': test});
 }
