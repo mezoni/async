@@ -99,6 +99,7 @@ class AsyncException implements Exception {
 
   bool _flatten(AsyncException asyncException, List<ExceptionWrapper> flat) {
     bool flattened = false;
+    var prev = null;
     for(var exception in asyncException._exceptions) {
       if(exception.exception is AsyncException) {
         flattened = true;
