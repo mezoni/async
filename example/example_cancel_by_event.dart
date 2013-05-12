@@ -10,22 +10,31 @@ class Example {
     var ce = new CancelEvent();
     new Async(() {
       var processed = 0;
-      var total = 15000;
-      print('Started, scheduling $total operation(s).');
+      var total = 500000;
+      print('Starting, scheduling $total operations.');
+      var sw0 = new Stopwatch();
+      sw0.start();
       for(var i = 0; i < total; i++) {
         var work = new Async(() {
           processed++;
-          for(var delay = 0; delay < 100000; delay++) {};
-          print(i);
         });
       }
 
+      sw0.stop();
+      var elapsed = sw0.elapsedMilliseconds;
+      var speed = '';
+      if(elapsed > 0) {
+        speed = '(${total ~/ elapsed * 1000} op/sec)';
+      }
+
+      print('Scheduled $total operations in $elapsed ms $speed');
       var sw1 = new Stopwatch();
       sw1.start();
       // Who did not, that was late
-      new Async.delay(200, () {
+      var timeout = 100;
+      new Async.delay(timeout, () {
         sw1.stop();
-        print('Canceling...');
+        print('Canceling after $timeout ms.');
         var sw2 = new Stopwatch();
         sw2.start();
         // Cancel by event
@@ -35,14 +44,23 @@ class Example {
         var elapsed2 = sw2.elapsedMilliseconds;
         var canceled = total - processed;
 
-        print('Processed: $processed from $total operation(s) in $elapsed1 ms.');
-        print('Canceled by event: $canceled operation(s) in $elapsed2 ms.');
+        var speed1 = '';
+        if(elapsed > 0) {
+          speed1 = '(${processed ~/ elapsed1 * 1000} op/sec)';
+        }
+
+        var speed2 = '';
+        if(elapsed > 0) {
+          speed2 = '(${canceled ~/ elapsed2 * 1000} op/sec)';
+        }
+
+        print('Processed: $processed from $total operations in $elapsed1 ms $speed1');
+        print('Canceled by event: $canceled operations in $elapsed2 ms $speed2');
       });
 
     }, cancelEvent: ce)
-
     .continueWith((ant) {
-      print('The end.');
+      print('Finally: The end.');
     });
   }
 }

@@ -1,20 +1,6 @@
 part of async;
 
-abstract class AsyncResult<T> {
-  AsyncException get exception;
-
-  bool get isCanceled;
-
-  bool get isCompleted;
-
-  bool get isFailed;
-
-  T get result;
-
-  void onComplete(action());
-}
-
-class Async<T> implements AsyncResult<T> {
+class Async<T> {
   static Async _current;
   static int _nextId = 0;
 
@@ -213,8 +199,6 @@ class Async<T> implements AsyncResult<T> {
     } else {
       _scheduler = AsyncScheduler.current;
     }
-
-    _log('ctor', this);
   }
 
   static Async<List> whenAll(Iterable<Async> operations,
@@ -542,10 +526,6 @@ class Async<T> implements AsyncResult<T> {
     _processChildCompletion(this);
   }
 
-  void _log(String action, Async operation) {
-    //print('$action: $this, parent: $_parent, ant: $_antecedent, childs: $_numberOfUncompletedChildren, conts: $_numberOfContinuations');
-  }
-
   bool _makeTransition(Async previous, Async next) {
     if(previous.isFailed) {
       next._setException(previous.exception);
@@ -560,8 +540,6 @@ class Async<T> implements AsyncResult<T> {
 
   void _processChildCompletion(Async child) {
     _numberOfUncompletedChildren--;
-    _log('pchc', this);
-
     if(child != this) {
       if(child.isFailed) {
         _exceptionalChildren.add(child);
@@ -612,7 +590,6 @@ class Async<T> implements AsyncResult<T> {
       _numberOfContinuations--;
     }
 
-    _log('pcoc', this);
     if(_antecedent != null) {
       _antecedent._processContinuationCompletion(this);
     }
