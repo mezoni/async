@@ -20,14 +20,6 @@ class Example {
     .then((packages) {
       packages.sort((e1, e2) => _compare(e1['name'], e2['name']));
       _writeHtml(packages);
-    })
-    .catchException((ae) {
-      ae.handle((exception) {
-        if(exception is SocketIOException) {
-          print('Error occured: $exception');
-          return true;
-        }
-      });
     });
   }
 

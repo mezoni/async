@@ -19,14 +19,6 @@ class Example {
     _getLatestPackagesAsync()
     .then((packages) {
       _writeHtml(packages);
-    })
-    .catchException((ae) {
-      ae.handle((exception) {
-        if(exception is SocketIOException) {
-          print('Error occured: $exception');
-          return true;
-        }
-      });
     });
   }
 
