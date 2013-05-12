@@ -17,14 +17,14 @@ Here is a small list of supported features:
  
 Here is some examples that you may to run and see how it works and how it may be used.
 
-[Access pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_access_pub_dartlang_org.dart)
-[Cancel multiple operations by one event](https://github.com/mezoni/async/blob/master/example/example_cancel_by_event.dart)
-[Handling exceptions in an asynchronous operations](https://github.com/mezoni/async/blob/master/example/example_handling_exception.dart)
-[Show all packages on pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_show_all_packages.dart)
-[Show latest packages on pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_show_latest_packages.dart)
-[Using 'Stream' and closing it when canceling the operations](https://github.com/mezoni/async/blob/master/example/example_using_stream.dart)
-[Using 'whenAll' to wait for the completion of all operations](https://github.com/mezoni/async/blob/master/example/example_using_when_all.dart)
-[Using 'whenAll' to wait for the completion of any operation](https://github.com/mezoni/async/blob/master/example/example_using_when_any.dart)
+ - [Access pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_access_pub_dartlang_org.dart)
+ - [Cancel multiple operations by one event](https://github.com/mezoni/async/blob/master/example/example_cancel_by_event.dart)
+ - [Handling exceptions in an asynchronous operations](https://github.com/mezoni/async/blob/master/example/example_handling_exception.dart)
+ - [Show all packages on pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_show_all_packages.dart)
+ - [Show latest packages on pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_show_latest_packages.dart)
+ - [Using 'Stream' and closing it when canceling the operations](https://github.com/mezoni/async/blob/master/example/example_using_stream.dart)
+ - [Using 'whenAll' to wait for the completion of all operations](https://github.com/mezoni/async/blob/master/example/example_using_when_all.dart)
+ - [Using 'whenAll' to wait for the completion of any operation](https://github.com/mezoni/async/blob/master/example/example_using_when_any.dart)
  
 Also some basic examples.
  
