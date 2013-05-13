@@ -405,7 +405,16 @@ class Async<T> {
 
   Future<T> asFuture() {
     var completer = new Completer<T>();
-    onComplete(() => completer.complete(result));
+    onComplete(() {
+      if(isFailed) {
+        completer.completeError(_exception);
+      } else if(isCanceled) {
+        completer.completeError(_cancelException);
+      } else {
+        completer.complete(_result);
+      }
+    });
+
     return completer.future;
   }
 
