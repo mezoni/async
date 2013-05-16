@@ -42,10 +42,6 @@ class AsyncCompleter<T> {
   }
 
   bool trySetException(Object exception, [StackTrace stackTrace]) {
-    if(exception == null) {
-      throw new ArgumentError('exception: $exception');
-    }
-
     if(!_operation.isCompleted) {
       var asyncException = new AsyncException(new ExceptionWrapper(exception, stackTrace));
       _operation._setException(asyncException);

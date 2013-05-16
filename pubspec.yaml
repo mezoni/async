@@ -3,5 +3,7 @@ version: 0.1.6
 author: Andrew Mezoni <andrew.mezoni@gmail.com>
 description: Asynchronous operations
 homepage: https://github.com/mezoni/async
+dependencies:
+  yaml: any
 dev_dependencies:
   unittest: any

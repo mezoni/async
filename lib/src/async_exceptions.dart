@@ -2,7 +2,7 @@ part of async;
 
 class ExceptionWrapper {
   final Object exception;
-  final Object stackTrace;
+  final StackTrace stackTrace;
 
   ExceptionWrapper(this.exception, [this.stackTrace]);
 }
@@ -146,19 +146,10 @@ class AsyncException implements Exception {
       msg = ': $message';
     }
 
-    var nostack = 'Stack trace: No information about stack trace';
     if(stackTrace == null) {
-      stackTrace = nostack;
+      stackTrace = 'Stack trace: No information about stack trace';
     } else {
-      if(stackTrace is List) {
-        if(stackTrace.isEmpty) {
-          stackTrace = nostack;
-        } else {
-          stackTrace = 'Stack trace:\r${stackTrace.join('\r')}';
-        }
-      } else {
-        stackTrace = 'Stack trace:\r$stackTrace';
-      }
+      stackTrace = 'Stack trace:\r$stackTrace';
     }
 
     return '$name$msg\r$stackTrace';
