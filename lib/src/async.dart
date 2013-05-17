@@ -2,6 +2,7 @@ part of async;
 
 class Async<T> {
   static Async _current;
+  static bool _debug;
   static int _nextId = 0;
 
   static const int _STATE_CANCELED = 1;
@@ -39,6 +40,7 @@ class Async<T> {
   Async _parent;
   T _result;
   AsyncScheduler _scheduler;
+  StackTrace _stackTrace;
 
   factory Async(T action(), {CancelEvent cancelEvent, int options}) {
     var operation = new Async._internal(action, cancelEvent: cancelEvent,
@@ -165,6 +167,17 @@ class Async<T> {
 
     if(options != null) {
       _options = options;
+    }
+
+    if(_debug == true) {
+      if(_current == null) {
+        try {
+          throw null;
+        } catch(exception, stackTrace) {
+          // Call site information
+          _stackTrace = stackTrace;
+        }
+      }
     }
 
     if(cancelEvent != null) {
@@ -392,7 +405,16 @@ class Async<T> {
 
   Future<T> asFuture() {
     var completer = new Completer<T>();
-    onComplete(() => completer.complete(result));
+    onComplete(() {
+      if(isFailed) {
+        completer.completeError(_exception);
+      } else if(isCanceled) {
+        completer.completeError(_cancelException);
+      } else {
+        completer.complete(_result);
+      }
+    });
+
     return completer.future;
   }
 
@@ -508,7 +530,20 @@ class Async<T> {
         if(exception is CancelException) {
           _cancelException = exception;
         } else {
-          _setException(new AsyncException(new ExceptionWrapper(exception, stackTrace)));
+          var stackTraces = [];
+          if(_debug == true) {
+            var prev = this;
+            while(prev != null) {
+              if(prev._stackTrace != null) {
+                stackTraces.add(prev._stackTrace);
+              }
+
+              prev = prev._parent;
+            }
+          }
+
+          stackTraces.add(stackTrace);
+          _setException(new AsyncException(new ExceptionWrapper(exception, stackTraces)));
         }
       }
     }

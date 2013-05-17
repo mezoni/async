@@ -2,7 +2,7 @@ part of async;
 
 class ExceptionWrapper {
   final Object exception;
-  final StackTrace stackTrace;
+  final Object stackTrace;
 
   ExceptionWrapper(this.exception, [this.stackTrace]);
 }
@@ -99,7 +99,6 @@ class AsyncException implements Exception {
 
   bool _flatten(AsyncException asyncException, List<ExceptionWrapper> flat) {
     bool flattened = false;
-    var prev = null;
     for(var exception in asyncException._exceptions) {
       if(exception.exception is AsyncException) {
         flattened = true;
@@ -146,10 +145,19 @@ class AsyncException implements Exception {
       msg = ': $message';
     }
 
+    var nostack = 'Stack trace: No information about stack trace';
     if(stackTrace == null) {
-      stackTrace = 'Stack trace: No information about stack trace';
+      stackTrace = nostack;
     } else {
-      stackTrace = 'Stack trace:\r$stackTrace';
+      if(stackTrace is List) {
+        if(stackTrace.isEmpty) {
+          stackTrace = nostack;
+        } else {
+          stackTrace = 'Stack trace:\r${stackTrace.join('\r')}';
+        }
+      } else {
+        stackTrace = 'Stack trace:\r$stackTrace';
+      }
     }
 
     return '$name$msg\r$stackTrace';
