@@ -9,7 +9,6 @@ import 'dart:json' as json;
 import 'dart:uri';
 
 void main() {
-  new Version('0.5.0-alpha.10+1');
   var example = new Example();
   example.run();
 }
