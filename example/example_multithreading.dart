@@ -51,7 +51,8 @@ class LongRunningTask extends Runnable {
   }
 
   int doWork(int i) {
-    print('Multithreading task: $name, $i from $times');
+    var done = i + 1 == times ? 'done' : '';
+    print('Multithreading task: $name, ${i + 1} from $times $done');
     _simulate(1500);
   }
 
