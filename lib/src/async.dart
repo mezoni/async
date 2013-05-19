@@ -1,5 +1,28 @@
 part of async;
 
+void _receiver() {
+  port.receive((runnable, SendPort reply) {
+    var response = {'result': null, 'exception': null, 'stackTrace': null};
+    if(runnable is Runnable) {
+      try {
+        response['result'] = runnable.run();
+      } catch(exception, stackTrace) {
+        response['exception'] = exception;
+        //response['stackTrace'] = stackTrace;
+      }
+    } else {
+      try {
+        throw new StateError('$runnable is not Runnable');
+      } catch(exception, stackTrace) {
+        response['exception'] = exception;
+        //response['stackTrace'] = stackTrace;
+      }
+    }
+
+    reply.send(response);
+  });
+}
+
 class Async<T> {
   static Async _current;
   static bool _debug;
@@ -137,6 +160,35 @@ class Async<T> {
         if(streamSubscription != null) {
           streamSubscription.cancel();
         }
+      }
+    });
+
+    return operation;
+  }
+
+  factory Async.run(Runnable runnable, {CancelEvent cancelEvent, int options}) {
+    var sender = spawnFunction(_receiver);
+    var receiver = new ReceivePort();
+    var completer = new AsyncCompleter(cancelEvent: cancelEvent,
+      options: options);
+    var closed = false;
+
+    receiver.receive((result, _) {
+      receiver.close();
+      closed = true;
+      var exception = result['exception'];
+      if(exception != null) {
+        completer.trySetException(exception);
+      } else {
+        completer.trySetResult(result['result']);
+      }
+    });
+
+    sender.send(runnable, receiver.toSendPort());
+    var operation = completer.operation;
+    operation.onComplete(() {
+      if(!closed) {
+        receiver.close();
       }
     });
 

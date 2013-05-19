@@ -1,6 +1,6 @@
 #[Async](https://github.com/mezoni/async) is an asynchronous operations (tasks) library for Dart language.
 
-Current version: 0.1.6+201305191915
+Current version: 0.1.7
 
 This library is a lightweight and easy to understand and use.
 
@@ -15,6 +15,7 @@ Here is a small list of supported features:
  - The ability easy transform the tasks into 'futures'
  - The ability creating 'promise 'tasks from results
  - The ability easy assignment of the task result inside the tasks 'actions'
+ - The ability run tasks in parallel (multithreading)
  - The exception handling with the error propagation from the inner tasks to the outer tasks
  
 Here is some examples that you may to run and see how it works and how it may be used.
@@ -22,6 +23,7 @@ Here is some examples that you may to run and see how it works and how it may be
  - [Access pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_access_pub_dartlang_org.dart)
  - [Cancel multiple operations by one event](https://github.com/mezoni/async/blob/master/example/example_cancel_by_event.dart)
  - [Handling exceptions in an asynchronous operations](https://github.com/mezoni/async/blob/master/example/example_handling_exception.dart)
+ - [Parallel tasks (multithreading)](https://github.com/mezoni/async/blob/master/example/example_multithreading.dart)
  - [Show all packages on pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_show_all_packages.dart)
  - [Show latest packages on pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_show_latest_packages.dart)
  - [Using 'Stream' and closing it when canceling the operations](https://github.com/mezoni/async/blob/master/example/example_using_stream.dart)
@@ -170,6 +172,27 @@ void main() {
   task.then((work) {
     print(work);
   });
+}
+```
+
+**The ability run tasks in parallel (multithreading)**
+
+```
+void main() {
+  new Async.run(new LongTask('Hello'));
+}
+
+class LongTask implements Runnable {
+  final String data;
+  LongTask(this.data);
+
+  String run() {
+    while(true) {
+      print(data);
+    }
+
+    return 'Do not wait!';
+  }
 }
 ```
 

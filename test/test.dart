@@ -7,16 +7,18 @@ import 'package:unittest/unittest.dart';
 import '../example/example_access_pub_dartlang_org.dart' as example01;
 import '../example/example_cancel_by_event.dart' as example02;
 import '../example/example_handling_exception.dart' as example03;
-import '../example/example_show_latest_packages.dart' as example04;
-import '../example/example_show_all_packages.dart' as example05;
-import '../example/example_using_stream.dart' as example06;
-import '../example/example_using_when_all.dart' as example07;
-import '../example/example_using_when_any.dart' as example08;
+import '../example/example_multithreading.dart' as example04;
+import '../example/example_show_latest_packages.dart' as example05;
+import '../example/example_show_all_packages.dart' as example06;
+import '../example/example_using_stream.dart' as example07;
+import '../example/example_using_when_all.dart' as example08;
+import '../example/example_using_when_any.dart' as example09;
 
 void main() {
   var tests = [];
   tests.add({'name': 'Deepest child canceled', 'test': _test_deepest_child_canceled});
   tests.add({'name': 'Stream closed when cancel', 'test': _test_stream_closed_when_cancel});
+  tests.add({'name': 'Error handling in parallel tasks', 'test': _test_error_handling_in_parallel_tasks});
   tests.addAll(_get_example_tests());
   _run_tests(tests);
 }
@@ -110,6 +112,33 @@ void _test_stream_closed_when_cancel() {
   });
 }
 
+void _test_error_handling_in_parallel_tasks() {
+  new Async.run(new ParallelTask(null))
+  .catchException((ae) {
+    ae.handle((exception) {
+      if(exception is ArgumentError) {
+        return true;
+      }
+    });
+  })
+  .continueWith((ant) {
+    expect(ant.status, AsyncStatus.CANCELED,
+      reason: 'long task exception not handled');
+  });
+}
+
+class ParallelTask implements Runnable {
+  final int data;
+
+  ParallelTask(this.data);
+
+  run() {
+    if(data == null) {
+      throw new ArgumentError('data: $data');
+    }
+  }
+}
+
 List _get_example_tests() {
   var tests = [];
   _addExample('Access pub.dartlang.org',
@@ -118,16 +147,18 @@ List _get_example_tests() {
     () => new example02.Example().run(), tests);
   _addExample('Handling exception',
     () => new example03.Example().run(), tests);
+  _addExample('Multithreading',
+      () => new example04.Example().run(), tests);
   _addExample('Show latest packages',
-    () => new example04.Example().run(), tests);
-  _addExample('Show all packages',
     () => new example05.Example().run(), tests);
-  _addExample('Using stream',
+  _addExample('Show all packages',
     () => new example06.Example().run(), tests);
-  _addExample('Using whenAll',
+  _addExample('Using stream',
     () => new example07.Example().run(), tests);
-  _addExample('Using whenAny',
+  _addExample('Using whenAll',
     () => new example08.Example().run(), tests);
+  _addExample('Using whenAny',
+    () => new example09.Example().run(), tests);
   return tests;
 }
 
