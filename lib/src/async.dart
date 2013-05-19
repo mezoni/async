@@ -369,7 +369,7 @@ class Async<T> {
       return;
     }
 
-    _assert((_flagState & _STATE_PROMISE) != 0, 'Cannot set the result of the promise operation');
+    _assert((_flagState & _STATE_PROMISE) == 0, 'Cannot set the result of the promise operation');
     _assert(false, 'Cannot set the result of the operation');
   }
 
