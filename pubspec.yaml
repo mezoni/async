@@ -1,5 +1,5 @@
 name: async
-version: 0.1.7
+version: 0.1.7+201305192154
 author: Andrew Mezoni <andrew.mezoni@gmail.com>
 description: Asynchronous operations
 homepage: https://github.com/mezoni/async
