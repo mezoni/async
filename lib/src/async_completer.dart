@@ -17,7 +17,7 @@ class AsyncCompleter<T> {
     _operation._setCanceled();
   }
 
-  void setException(Object exception, [StackTrace stackTrace]) {
+  void setException(Object exception, [Object stackTrace]) {
     if(exception == null) {
       throw new ArgumentError('exception: $exception');
     }
@@ -41,7 +41,7 @@ class AsyncCompleter<T> {
     return false;
   }
 
-  bool trySetException(Object exception, [StackTrace stackTrace]) {
+  bool trySetException(Object exception, [Object stackTrace]) {
     if(exception == null) {
       throw new ArgumentError('exception: $exception');
     }

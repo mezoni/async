@@ -8,14 +8,14 @@ void _receiver() {
         response['result'] = runnable.run();
       } catch(exception, stackTrace) {
         response['exception'] = exception;
-        //response['stackTrace'] = stackTrace;
+        response['stackTrace'] = '$stackTrace';
       }
     } else {
       try {
         throw new StateError('$runnable is not Runnable');
       } catch(exception, stackTrace) {
         response['exception'] = exception;
-        //response['stackTrace'] = stackTrace;
+        response['stackTrace'] = '$stackTrace';
       }
     }
 
@@ -63,7 +63,7 @@ class Async<T> {
   Async _parent;
   T _result;
   AsyncScheduler _scheduler;
-  StackTrace _stackTrace;
+  Object _stackTrace;
 
   factory Async(T action(), {CancelEvent cancelEvent, int options}) {
     var operation = new Async._internal(action, cancelEvent: cancelEvent,
@@ -178,7 +178,8 @@ class Async<T> {
       closed = true;
       var exception = result['exception'];
       if(exception != null) {
-        completer.trySetException(exception);
+        var stackTrace = result['stackTrace'];
+        completer.trySetException(exception, stackTrace);
       } else {
         completer.trySetResult(result['result']);
       }
