@@ -12,7 +12,7 @@ class Example {
     new Async.delay(timeout, () {
       print('Canceling long running tasks after $timeout ms...');
       ce.set();
-    }, cancelEvent: ce);
+    });
 
     var numberOfTasks = 2;
     for(var i = 0; i < numberOfTasks; i++) {
