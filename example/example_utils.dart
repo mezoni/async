@@ -1,4 +1,4 @@
-library example_utils;
+library async.example.example_utils;
 
 import 'dart:mirrors';
 import 'dart:io';

@@ -1,3 +1,5 @@
+library async.example.example_show_all_packages;
+
 import 'package:async/async.dart';
 import 'package:yaml/yaml.dart';
 import 'example_utils.dart';

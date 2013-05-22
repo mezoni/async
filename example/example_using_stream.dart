@@ -1,3 +1,5 @@
+library async.example.example_using_stream;
+
 import 'package:async/async.dart';
 
 import 'dart:async';
@@ -110,7 +112,7 @@ class Example {
     return new Async<List<int>>(() {
       Async<List<int>> current = Async.current;
       var stream = _createStream();
-      var data = stream.then((stream) {
+      stream.then((stream) {
         return _readFromStreamAsync(stream).then((data) {
           print('Transfer from stream completed');
           current.result = data;

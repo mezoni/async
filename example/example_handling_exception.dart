@@ -1,3 +1,5 @@
+library async.example.example_handling_exception;
+
 import 'package:async/async.dart';
 
 void main() {

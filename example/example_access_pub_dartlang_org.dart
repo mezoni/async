@@ -1,3 +1,5 @@
+library async.example.example_access_pub_dartlang_org;
+
 import 'package:async/async.dart';
 import 'example_web_client.dart';
 

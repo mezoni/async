@@ -1,3 +1,5 @@
+library async.example.example_using_when_all;
+
 import 'package:async/async.dart';
 
 void main() {

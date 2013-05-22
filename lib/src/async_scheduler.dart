@@ -35,7 +35,7 @@ class AsyncScheduler {
       return;
     }
 
-    var started = new DateTime.now().millisecondsSinceEpoch;
+    var sw = new Stopwatch()..start();
     do {
       var operation = _scheduled.first;
       execute(operation, true);
@@ -43,8 +43,7 @@ class AsyncScheduler {
         break;
       }
 
-      var now = new DateTime.now().millisecondsSinceEpoch;
-      if(now - started > allottedTime) {
+      if(sw.elapsedMilliseconds > allottedTime) {
         break;
       }
     } while(true);

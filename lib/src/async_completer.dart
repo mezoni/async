@@ -1,20 +1,14 @@
 part of async;
 
 class AsyncCompleter<T> {
-  Async<T> _operation;
+  final Async<T> operation;
 
-  AsyncCompleter({CancelEvent cancelEvent, int options}) {
-    _operation = new Async<T>._promise(cancelEvent: cancelEvent,
-      options: options);
-  }
-
-  Async<T> get operation {
-    return _operation;
-  }
+  AsyncCompleter({CancelEvent cancelEvent, int options}) : operation =
+    new Async<T>._promise(cancelEvent: cancelEvent, options: options);
 
   void setCanceled() {
-    _assert(!_operation.isCompleted, 'Cannot cancel of the completed operation');
-    _operation._setCanceled();
+    _assert(!operation.isCompleted, 'Cannot cancel of the completed operation');
+    operation._setCanceled();
   }
 
   void setException(Object exception, [Object stackTrace]) {
@@ -22,19 +16,19 @@ class AsyncCompleter<T> {
       throw new ArgumentError('exception: $exception');
     }
 
-    _assert(!_operation.isCompleted, 'Cannot set the exception of the completed operation');
+    _assert(!operation.isCompleted, 'Cannot set the exception of the completed operation');
     var asyncException = new AsyncException(new ExceptionWrapper(exception, stackTrace));
-    _operation._setException(asyncException);
+    operation._setException(asyncException);
   }
 
   void setResult(T result) {
-    _assert(!_operation.isCompleted, 'Cannot set the result of the completed operation');
-    _operation._setResult(result);
+    _assert(!operation.isCompleted, 'Cannot set the result of the completed operation');
+    operation._setResult(result);
   }
 
   bool trySetCanceled() {
-    if(!_operation.isCompleted) {
-      _operation._setCanceled();
+    if(!operation.isCompleted) {
+      operation._setCanceled();
       return true;
     }
 
@@ -46,9 +40,9 @@ class AsyncCompleter<T> {
       throw new ArgumentError('exception: $exception');
     }
 
-    if(!_operation.isCompleted) {
+    if(!operation.isCompleted) {
       var asyncException = new AsyncException(new ExceptionWrapper(exception, stackTrace));
-      _operation._setException(asyncException);
+      operation._setException(asyncException);
       return true;
     }
 
@@ -56,8 +50,8 @@ class AsyncCompleter<T> {
   }
 
   bool trySetResult(T result) {
-    if(!_operation.isCompleted) {
-      _operation._setResult(result);
+    if(!operation.isCompleted) {
+      operation._setResult(result);
       return true;
     }
 

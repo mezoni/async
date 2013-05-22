@@ -1,3 +1,5 @@
+library async.example.example_cancel_by_event;
+
 import 'package:async/async.dart';
 
 void main() {

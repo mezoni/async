@@ -1,9 +1,8 @@
 name: async
-version: 0.1.7+201305201417
+version: 0.1.7+201305222207
 author: Andrew Mezoni <andrew.mezoni@gmail.com>
 description: Asynchronous operations
 homepage: https://github.com/mezoni/async
-dependencies:
-  yaml: any
 dev_dependencies:
   unittest: any
+  yaml: any

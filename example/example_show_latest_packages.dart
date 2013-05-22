@@ -1,3 +1,5 @@
+library async.example.example_show_latest_packages;
+
 import 'package:async/async.dart';
 import 'example_utils.dart';
 import 'example_web_client.dart';
