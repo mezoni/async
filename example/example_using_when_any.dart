@@ -24,7 +24,7 @@ class Example {
       });
 
       new Async(() {
-        Async.whenAny([inner1]).then((work) {
+        Async.whenAny([inner1, inner2, inner3]).then((work) {
           print('Any: $work, status: ${work.status}');
         });
       });
