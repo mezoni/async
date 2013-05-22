@@ -23,7 +23,7 @@ void _receiver() {
   });
 }
 
-class Async<T> {
+class Async<T> implements Executable {
   static Async _current;
   static bool _debug;
   static int _nextId = 0;
@@ -502,6 +502,10 @@ class Async<T> {
 
   void onComplete(void action()) {
     _completedEvent += action;
+  }
+
+  void execute() {
+    _execute();
   }
 
   Async<T> start() {

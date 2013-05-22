@@ -8,7 +8,7 @@ class AsyncScheduler {
   bool _inTimer = false;
   ListQueue<Async> _scheduled = new ListQueue<Async>();
 
-  void enqueue(Async operation) {
+  void enqueue(Executable operation) {
     if(_scheduled.isEmpty && !_inTimer) {
       _setTimer();
     }
@@ -16,12 +16,12 @@ class AsyncScheduler {
     _scheduled.add(operation);
   }
 
-  void execute(Async operation, [bool scheduled]) {
+  void execute(Executable  operation, [bool scheduled]) {
     if(scheduled == true) {
       _scheduled.remove(operation);
     }
 
-    operation._execute();
+    operation.execute();
   }
 
   void _idle() {

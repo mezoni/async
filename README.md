@@ -1,6 +1,6 @@
 #[Async](https://github.com/mezoni/async) is an asynchronous operations (tasks) library for Dart language.
 
-Current version: 0.1.7+201305230014
+Current version: 0.1.7+201305230249
 
 This library is a lightweight and easy to understand and use.
 
