@@ -7,7 +7,6 @@ import 'example_web_client.dart';
 import 'dart:async';
 import 'dart:io';
 import 'dart:json' as json;
-import 'dart:uri';
 
 void main() {
   var example = new Example();
@@ -27,7 +26,7 @@ class Example {
   Async<List<String>> _getLatestPackagesAsync() {
     return new Async(() {
       var current = Async.current;
-      new WebClient().readAsStringAsync(new Uri('$server/packages.json'))
+      new WebClient().readAsStringAsync(Uri.parse('$server/packages.json'))
       .then((jsonData) {
         var doc = json.parse(jsonData);
         var packages = doc['packages'];
@@ -50,7 +49,7 @@ class Example {
   Async<List<String>> _readJsonAndParseAsync(url) {
     return new Async(() {
       var current = Async.current;
-      new WebClient().readAsStringAsync(new Uri(url))
+      new WebClient().readAsStringAsync(Uri.parse(url))
       .then((jsonData) {
         current.result = json.parse(jsonData);
       });

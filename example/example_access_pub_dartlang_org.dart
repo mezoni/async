@@ -5,7 +5,6 @@ import 'example_web_client.dart';
 
 import 'dart:io';
 import 'dart:json' as json;
-import 'dart:uri';
 
 void main() {
   var example = new Example();
@@ -13,7 +12,7 @@ void main() {
 }
 
 class Example {
-  final String server = 'http://pub.dartlang.org/';
+  final String server = 'http://pub.dartlang.org';
 
   void run() {
     new Async(() {
@@ -72,7 +71,7 @@ class Example {
     return new Async(() {
       var current = Async.current;
       new WebClient()
-      .readAsStringAsync(new Uri('$server/packages/$packageName.json'))
+      .readAsStringAsync(Uri.parse('$server/packages/$packageName.json'))
       .then((jsonData) {
         var doc = json.parse(jsonData);
         current.result = doc['versions'];

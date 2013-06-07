@@ -2,7 +2,6 @@ library async.example.example_web_client;
 
 import 'dart:async';
 import 'dart:io';
-import 'dart:uri';
 
 import 'package:async/async.dart';
 
