@@ -1,6 +1,6 @@
 #[Async](https://github.com/mezoni/async) is an asynchronous operations (tasks) library for Dart language.
 
-Current version: 0.1.7+201306072346
+Current version: 0.1.7+201307041439
 
 This library is a lightweight and easy to understand and use.
 
@@ -17,7 +17,7 @@ Here is a small list of supported features:
  - The ability easy assignment of the task result inside the tasks 'actions'
  - The ability run tasks in parallel (multithreading)
  - The exception handling with the error propagation from the inner tasks to the outer tasks
- 
+
 Here is some examples that you may to run and see how it works and how it may be used.
 
  - [Access pub.dartlang.org](https://github.com/mezoni/async/blob/master/example/example_access_pub_dartlang_org.dart)
@@ -29,11 +29,11 @@ Here is some examples that you may to run and see how it works and how it may be
  - [Using 'Stream' and closing it when canceling the operations](https://github.com/mezoni/async/blob/master/example/example_using_stream.dart)
  - [Using 'whenAll' to wait for the completion of all operations](https://github.com/mezoni/async/blob/master/example/example_using_when_all.dart)
  - [Using 'whenAll' to wait for the completion of any operation](https://github.com/mezoni/async/blob/master/example/example_using_when_any.dart)
- 
+
 Also some basic examples.
- 
+
 **The attaching or detaching the inner tasks to outer tasks (parent tasks)**
- 
+
 ```
 void main() {
   var outer = new Async(() {
@@ -90,9 +90,9 @@ void main() {
   });
 }
 ```
- 
+
 **The 'promise' tasks similar to the 'futures'**
-  
+
 ```
 void main() {
   var completer = new AsyncCompleter();
@@ -103,7 +103,7 @@ void main() {
 ```
 
 **The ability creating task in the 'cold' or 'warm' state**
- 
+
 ```
 void main() {
   var cold = new Async.create(() {
@@ -118,7 +118,7 @@ void main() {
 ```
 
 **The ability creating 'promise 'tasks from 'futures'**
- 
+
 ```
 void main() {
   var completer = new Completer();
@@ -130,8 +130,8 @@ void main() {
 ```
 
 **The ability creating 'promise' tasks from results**
- 
-``` 
+
+```
 void main() {
   var completer = new AsyncCompleter();
   var task = new Async.fromResult('Hello');
@@ -156,7 +156,7 @@ void main() {
 
 **The ability easy assignment of the task result inside the tasks 'actions'**
 
-``` 
+```
 void main() {
   var workAsync = new Async(() {
     return 'Hello';
@@ -198,7 +198,7 @@ class LongTask implements Runnable {
 ```
 
 **The exception handling with the error propagation from the inner tasks to the outer tasks**
- 
+
 ```
 void main() {
   var outer = new Async(() {

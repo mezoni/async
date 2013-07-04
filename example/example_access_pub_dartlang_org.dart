@@ -39,7 +39,7 @@ class Example {
           })
           .catchException((ae) {
             ae.handle((exception) {
-              if(exception is SocketIOException) {
+              if(exception is SocketOption) {
                 print('An error occurred during fetching "$package"');
                 return true;
               }
